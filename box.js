@@ -10,19 +10,23 @@ const character = 'ichirin'
 // 2001-j5b
 // 2500/1/2/-ab
 // 3000-sp    3010/1
+// c series is not totally correct, it is actually 'skillA' 'skillB' ... and whatever
+// this is i used for shimmy and ichirin, so it is not suitable for other characters
 // 3020-4c    3040-5c    3000/1/5-2c     3010-8c      3030-j6c
 //                                       3011/2-j8c   3031/2/5/8/3/4/30/50-6c
 // 4000-sc1   4010-sc2   4020-sc3
-const motionID = 1220
-const outputDir = 'j8aWithNotOnlyOneLayerButFilter'
+const motionID = 1110
+const outputDir = 'theNameYouWantToUseSuchAsj5a'
 // use this to control the output size freely.
-const [xOffset, yOffset] = [0, 200];
-const [width, height] = [80, yOffset + 0];
+const [xOffset, yOffset] = [0, 0];
+const [width, height] = [0, yOffset + 0];
+
+// default part
 const {MongoClient} = require("mongodb");
 const fs = require("fs");
 const client = new MongoClient("mongodb://localhost:27017")
 client.connect().then()
-// im lazy so i used mongodb
+// im lazy so i used mongodb lol
 const db = client.db("aocf");
 // character json, got from read_pat.exe in 135tk
 const elems = require(`./data/${character}.json`)['textures']['1']
@@ -37,7 +41,7 @@ fs.access(`./output`, fs.constants.F_OK, async (err) => {
 });
 
 
-//use the two function to input the elem and motion obj into mongodb
+// use the two function to input the elem and motion obj into mongodb
 // table name: aocf, collection name: elems / motions
 async function updateElem() {
     for (let i = 1; i <= elems['nb_elems']; i++) {
@@ -59,6 +63,7 @@ async function updateMotion() {
     }
 }
 
+// *** update your elems to mongodb at first
 // updateElem().then();
 // updateMotion().then();
 
