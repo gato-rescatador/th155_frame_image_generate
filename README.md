@@ -19,7 +19,7 @@ there will be lots of infos, then you can use the mongosh commands
 (if you change the name, just change the dbName in the code here:)  
 ![./img/md/img_11.png](./img/md/img_11.png)
 4. input `db.createCollection("elems")` and `"db.createCollection("motions")"`  
-then what we need is done.
+then what we need is done.   
 ![./img/md/img_4.png](./img/md/img_4.png)![./img/md/img_5.png](./img/md/img_5.png)
 
 ### modules we need
@@ -27,8 +27,9 @@ this script used following modules:
 - sharp  
 - mongodb node driver  
 - ~~fs(node)~~ (already built in node so you dont need to install)  
-it is quite easy, just open the command prompt, cd to your working directory and input  
-`npm install sharp` and `npm install mongodb`
+it is quite easy, just open the command prompt, cd to your working directory and input
+`npm install`, as i included the package.json file.  
+or you can also install manually: `npm install sharp` and `npm install mongodb`
 ![./img/md/img_6.png](./img/md/img_6.png)
 - then the preparation is done.
 
@@ -47,14 +48,14 @@ it is quite easy, just open the command prompt, cd to your working directory and
   - (there is also some usual ID we use, i wrote them in the comment, except the C series which is skillA/B/C... but not 2c/5c/8c or what. so the comment is not fully correct)
   - outputDir is the output directory name, the image we get will be named by it.
   - just name it as you want. e.g. j5a, ja or what.
-- Offset and width/height
+- Offset and width/height  
   ![./img/md/img_12.png](./img/md/img_12.png)
   - this change the width and height of output image.
   - e.g. the ichirin j8a, it is quite big, what we got is this.
   ![./img/md/img_13.png](./img/md/img_13.png)
   - it is terrible. so we change the height and width.
   ![./img/md/img_14.png](./img/md/img_14.png)
-  - then we got this.
+  - then we got this.  
   ![./img/md/img_15.png](./img/md/img_15.png)
   - good.
   - if you set them to 0, the file output will use the default solution of original image.  
@@ -68,25 +69,25 @@ just cancel the comment and run the function.(remember to comment the main funct
 ![./img/md/img_7.png](./img/md/img_7.png)
 then run the script, in the command prompt, use
 `node box.js`
-you will see this:
+you will see this:  
 ![./img/md/img_18.png](./img/md/img_18.png)  
 that is we put all the elements and motions into the database.
 then we can use them to generate image.
 ### generate the image
 - preparing the image.
-  - put your source image(you can get them by touhouSE) in the working directory:
-  - ![./img/md/img_19.png](./img/md/img_19.png)
-  - ![./img/md/img_20.png](./img/md/img_20.png)
-  - (if you do not have the actor fir, you could get the actor dir by touhouSE.)  
+  - put your source image(you can get them by touhouSE) in the working directory:  
+  ![./img/md/img_19.png](./img/md/img_19.png)  
+  ![./img/md/img_20.png](./img/md/img_20.png)  
+  - (if you do not have the actor fir, you could get the actor dir by touhouSE.)    
   ![./img/md/img_21.png](./img/md/img_21.png)  
 - set the motion you want to get
   1. change the motion you want to use.
-  e.g. kasen j5a.
+  e.g. kasen j5a.  
   ![./img/md/img_22.png](./img/md/img_22.png)  
   ![./img/md/img_23.png](./img/md/img_23.png)  
-  2. and just run the script
+  2. and just run the script  
   ![./img/md/img_24.png](./img/md/img_24.png)
-  3. check the output dir
+  3. check the output dir  
   ![./img/md/img_25.png](./img/md/img_25.png)
   shit, finally!
   4. if you want to change the solution, just edit the width/height, the x/y Offset param.  
@@ -97,8 +98,8 @@ then we can use them to generate image.
   ![./img/md/img_26.png](./img/md/img_26.png)
   WT** is this?
   obviously, it is because the location information of layer of other elements(e.g. the hand of unzan)
-  and i just use the collision/hurt/hit box info of the first layer.
-  ![./img/md/img_27.png](./img/md/img_27.png)
+  and i just use the collision/hurt/hit box info of the first layer.  
+  ![./img/md/img_27.png](./img/md/img_27.png)  
   so i would continue to change the code, maybe i could manually check which layer is correct.
   for now, the solution i used is directly filter the irrelevant layer. e.g.:
 
@@ -109,10 +110,10 @@ then we can use them to generate image.
     if (elem['path'].toLowerCase().includes('ball')) continue;
     if (elem['path'].toLowerCase().includes('test')) continue;
     if (elem['path'].toLowerCase().includes('skill_cushion0')) continue;
-  
+    
   ![./img/md/img_28.png](./img/md/img_28.png)
   it is quite dirty...but it works indeed, just like my code, lol.
-  the result is:
+  the result is:  
   ![./img/md/img_29.png](./img/md/img_29.png)
   whatever, ok.  
   im too lazy so the code is very dirty and inelegant, 
