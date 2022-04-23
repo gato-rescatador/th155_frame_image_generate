@@ -28,8 +28,9 @@ this script used following modules:
 - mongodb node driver  
 - ~~fs(node)~~ (already built in node so you dont need to install)  
 it is quite easy, just open the command prompt, cd to your working directory and input
-`npm install`, as i included the package.json file.  
-or you can also install manually: `npm install sharp` and `npm install mongodb`
+`npm install`, as i included the package.json file.    
+![./img/md/img_30.png](./img/md/img_30.png)
+or you can also install manually(not recommended): `npm install sharp` and `npm install mongodb`
 ![./img/md/img_6.png](./img/md/img_6.png)
 - then the preparation is done.
 
@@ -42,8 +43,8 @@ or you can also install manually: `npm install sharp` and `npm install mongodb`
 - motionID and outputDir  
 ![./img/md/img_9.png](./img/md/img_9.png)
   - motionID is the numberID in the nut file we got.
-  - nut file is from https://github.com/MathyFurret/th155-decomp
-  - ![./img/md/img_10.png](./img/md/img_10.png)
+  - nut file is from https://github.com/MathyFurret/th155-decomp  
+  ![./img/md/img_10.png](./img/md/img_10.png)
   - we know the j5a is 1110 in the game.
   - (there is also some usual ID we use, i wrote them in the comment, except the C series which is skillA/B/C... but not 2c/5c/8c or what. so the comment is not fully correct)
   - outputDir is the output directory name, the image we get will be named by it.
@@ -96,11 +97,11 @@ then we can use them to generate image.
   whatever, the script do not distinguish the correct layer itself.
   and then we got...  
   ![./img/md/img_26.png](./img/md/img_26.png)
-  WT** is this?
-  obviously, it is because the location information of layer of other elements(e.g. the hand of unzan)
+  WT** is this?  
+  obviously, it is because the location information of layer of other elements(e.g. the hand of unzan)  
   and i just use the collision/hurt/hit box info of the first layer.  
   ![./img/md/img_27.png](./img/md/img_27.png)  
-  so i would continue to change the code, maybe i could manually check which layer is correct.
+  so i would continue to change the code, maybe i could manually check which layer is correct.  
   for now, the solution i used is directly filter the irrelevant layer. e.g.:
 
     if (elem['path'].toLowerCase().includes('effect')) continue;
@@ -112,13 +113,13 @@ then we can use them to generate image.
     if (elem['path'].toLowerCase().includes('skill_cushion0')) continue;
     
   ![./img/md/img_28.png](./img/md/img_28.png)
-  it is quite dirty...but it works indeed, just like my code, lol.
+  it is quite dirty...but it works indeed, just like my code, lol.  
   the result is:  
   ![./img/md/img_29.png](./img/md/img_29.png)
   whatever, ok.  
-  im too lazy so the code is very dirty and inelegant, 
-  maybe i will change the code slowly. but if it helps you,
-  i will feel quite honored. thanks.
+  im too lazy so the code is very dirty and inelegant,
+  i will edit the script to solve current problems and im so happy if it helps you,
+  thanks :D
 
   
   
