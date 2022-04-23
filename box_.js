@@ -1,8 +1,8 @@
 const sharp = require("sharp");
-const character = 'doremy'
+const character = 'ichirin'
 // some num code i found in the data(maybe not correct)
 // 1000-4a    1100-5a        1210-2a     1220-8a     1230-6a
-// 1500-d4a   1600-d5a       1710-d2a    1720-d8a    1730/1740-d6a   1300-da
+// 1500-d4a   1600-d5a       1710-d2    1720-d8a    1730/1740-d6a   1300-da
 //            1101/1110-j5a  1211-j2a    1221-j8a    1231-j6a
 //                           1741-6dj2a  1750-6dj8a                  1310/11-db
 // 1800/2-grab/hit
@@ -11,13 +11,13 @@ const character = 'doremy'
 // 2500/1/2/-ab
 // 3000-sp    3010/1
 // 3020-4c    3040-5c    3000/1/5-2c     3010-8c      3030-j6c
-//                                       3011/2-j8c   3031/2/5/8/3/4/30/50-6c 2/5-se1911
+//                                       3011/2-j8c   3031/2/5/8/3/4/30/50-6c
 // 4000-sc1   4010-sc2   4020-sc3
 const motionID = 1220
-const outputDir = 'test'
+const outputDir = 'j8aWithNotOnlyOneLayerButFilter'
 // use this to control the output size freely.
-const [xOffset, yOffset] = [0, 0];
-const [width, height] = [60, yOffset + 0];
+const [xOffset, yOffset] = [0, 200];
+const [width, height] = [80, yOffset + 0];
 const {MongoClient} = require("mongodb");
 const fs = require("fs");
 const client = new MongoClient("mongodb://localhost:27017")
@@ -25,8 +25,17 @@ client.connect().then()
 // im lazy so i used mongodb
 const db = client.db("aocf");
 // character json, got from read_pat.exe in 135tk
-const elems = require(`../${character}.json`)['textures']['1']
-const motions = require(`../${character}.json`)['surfaces']
+const elems = require(`./data/${character}.json`)['textures']['1']
+const motions = require(`./data/${character}.json`)['surfaces']
+
+// generate the dir
+fs.access(`./cache`, fs.constants.F_OK, async (err) => {
+    if (err) fs.mkdir(`./cache`, () => console.log(`created dir: ./cache`))
+});
+fs.access(`./output`, fs.constants.F_OK, async (err) => {
+    if (err) fs.mkdir(`./output`, () => console.log(`created dir: ./output`))
+});
+
 
 //use the two function to input the elem and motion obj into mongodb
 // table name: aocf, collection name: elems / motions
@@ -54,7 +63,7 @@ async function updateMotion() {
 // updateMotion().then();
 
 
-// main function
+// // main function
 getInfo({
     motionID: motionID
 }).then((frames) => {
@@ -67,7 +76,7 @@ async function draw({
                         elems, collision, hurt, hit
                     }, outputName = undefined) {
     try {
-        let bg = await sharp('bg.png')
+        let bg = await sharp('./img/bg.png')
         fs.access(`./output/${character}`, fs.constants.F_OK, async (err) => {
             if (err) fs.mkdir(`./output/${character}`, () => console.log(`created dir: ./output/${character}`))
         });
@@ -161,6 +170,13 @@ async function getInfo({motionID}) {
                 }))
                 if (elem === null) continue;
                 console.log(`current layer: ${k} / layer path: ${elem['path']}`)
+                if (elem['path'].toLowerCase().includes('effect')) continue;
+                if (elem['path'].toLowerCase().includes('unzan')) continue;
+                if (elem['path'].toLowerCase().includes('hand')) continue;
+                if (elem['path'].toLowerCase().includes('head')) continue;
+                if (elem['path'].toLowerCase().includes('ball')) continue;
+                if (elem['path'].toLowerCase().includes('test')) continue;
+                if (elem['path'].toLowerCase().includes('skill_cushion0')) continue;
                 elems.push({
                     source: `./actor/${character}/${elem['path'].replace(/[.]\S+$/, '')}.png`,
                     x: elem['x'],
